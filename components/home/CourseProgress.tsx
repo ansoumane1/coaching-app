@@ -46,7 +46,7 @@ export default function CourseProgress({ courseProgress }: any) {
               <View style={{ marginTop: 7 }}>
                 <Progress.Bar progress={getProgressPerc(item)} width={260} />
                 <Text style={{ fontFamily: "outfit", marginTop: 2 }}>
-                  {item?.completedChapter?.length} out of{" "}
+                  {item?.completedChapter?.length ?? 0} out of{" "}
                   {item?.chapters?.length} Chapter completed
                 </Text>
               </View>
