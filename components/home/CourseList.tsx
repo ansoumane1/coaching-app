@@ -12,11 +12,17 @@ import React from "react";
 import { Colors } from "../../constants/Colors";
 import { useRouter } from "expo-router";
 
-export default function CourseList({ courseList }) {
+interface CourseListProps {
+  courseList: any;
+  heading?: string;
+  enrolled?: boolean;
+}
+
+export default function CourseList({ courseList, heading="Courses", enrolled=false }: CourseListProps) {
   const router = useRouter();
   return (
     <View style={styles.courseContainer}>
-      <Text style={styles.courseText}>Courses</Text>
+      <Text style={styles.courseText}>{heading}</Text>
       <FlatList
         data={courseList}
         keyExtractor={(item, index) => index.toString()}
@@ -29,6 +35,7 @@ export default function CourseList({ courseList }) {
                 pathname: `/courseView/${item?.docId}/courseview`,
                 params: {
                   courseParams: JSON.stringify(item),
+                  enrolled: enrolled ? 'true' : 'false',
                 },
               })
             }

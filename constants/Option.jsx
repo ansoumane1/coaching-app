@@ -3,19 +3,19 @@ export const PraticeOption = [
     name: "Quiz",
     image: require("./../assets/images/quizz.png"),
     icon: require("./../assets/images/quiz.png"),
-    path: "/quiz",
+    path: "/quiz/Quiz",
   },
   {
     name: "Flashcards",
     image: require("./../assets/images/flashcard.png"),
     icon: require("./../assets/images/layers.png"),
-    path: "/flashcards",
+    path: "/flashcards/flashcard",
   },
   {
     name: "Question & Ans",
     image: require("./../assets/images/notes.png"),
     icon: require("./../assets/images/qa.png"),
-    path: "/questionAnswer",
+    path: "/questionAnswer/QuestionAnswer",
   },
 ];
 
@@ -39,7 +39,7 @@ export const ProfileMenu = [
   {
     name: "Add Course",
     icon: "add-outline", //Ionic Icons
-    path: "/addCourse",
+    path: "/addCourse/AddCourse",
   },
   {
     name: "My Course",

@@ -1,14 +1,50 @@
-import { View, Text, Image, StyleSheet, Pressable } from "react-native";
-import React from "react";
+import { View, Text, Image, StyleSheet, Pressable, Platform } from "react-native";
+import React, { useContext } from "react";
 import { imageAssets } from "../../constants/Option";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../constants/Colors";
 import Button from "../shared/Button";
 import { goBack } from "expo-router/build/global-state/routing";
 import { useRouter } from "expo-router";
+import { db } from "../../config/firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
+import { UserDetailContext } from "../../context/UserDetailContext";
 
-export default function Intro({ course }: any) {
+interface IntroProps {
+  course: any;
+  enrolled?: any;
+}
+
+export default function Intro({ course, enrolled }: IntroProps) {
+
+  const { userDetail, setUserDetail} = useContext(UserDetailContext);
+  const [loading, setLoading] = React.useState(false);
   const router = useRouter();
+  const onEnrollCourse = async () => {
+    const docId = Date.now().toString();
+    const data = {
+      ...course,
+  
+      createdBy: userDetail?.email,
+      createdOn: new Date(),
+      enrolled: true,
+
+    };
+    //set to database
+    setLoading(true);
+    await setDoc(doc(db, "courses", docId), data);
+    router.push({
+      pathname: `/courseView/${docId}/courseview`,
+      params: {
+        courseParams: JSON.stringify(data),
+        enrolled: 'false',
+      },
+    });
+    setLoading(false);
+  
+  };
+
+
   return (
     <View>
       <Image source={imageAssets[course?.banner_image]} style={styles.image} />
@@ -25,7 +61,9 @@ export default function Intro({ course }: any) {
         <Text style={styles.descriptionTitle}>Description:</Text>
         <Text style={styles.description}>{course?.description}</Text>
 
-        <Button onPress={() => console.log("start")} text="Start Now" />
+        {enrolled == 'true' ? ( <Button onPress={() => console.log("start")} text="Start Now" />): (
+           <Button onPress={() => onEnrollCourse()} text="Enroll Now" loading={loading}/>
+        )}
       </View>
       <Pressable onPress={() => router.back()} style={styles.goBack}>
         <Ionicons name="arrow-back" size={30} color="black" />
@@ -62,6 +100,7 @@ const styles = StyleSheet.create({
   },
   goBack: {
     position: "absolute",
+    top: Platform.OS === "ios" ? 25 : 10,
     padding: 10,
   },
 });

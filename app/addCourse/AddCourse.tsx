@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
+import { View, Text, StyleSheet, TextInput, Pressable, Platform } from "react-native";
 import React, { useContext, useState } from "react";
 import { Colors } from "../../constants/Colors";
 import Button from "../../components/shared/Button";
@@ -101,7 +101,11 @@ export default function AddCourse() {
   };
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.bigTitle}>Create New Course </Text>
+     <View style={{
+      marginTop:  Platform.OS === "ios" ? 50 : 10,
+     }}>
+     <Text style={styles.bigTitle}>Create New Course </Text>
+     </View>
 
       <Text style={styles.smallTitle}>What you want to learn today?</Text>
       <Text style={styles.description}>

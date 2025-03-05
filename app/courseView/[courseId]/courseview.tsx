@@ -8,7 +8,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../config/firebaseConfig";
 
 export default function CourseView() {
-  const { courseParams, courseId } = useLocalSearchParams();
+  const { courseParams, courseId, enrolled } = useLocalSearchParams();
   const [course, setCourse] = useState<any>([]);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function CourseView() {
         renderItem={null}
         ListHeaderComponent={() => (
           <View style={styles.container}>
-            <Intro course={course} />
+            <Intro course={course} enrolled={enrolled} />
             <Chapters course={course} />
           </View>
         )}
